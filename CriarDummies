@@ -1,0 +1,65 @@
+create_dummies <- function(dados, variavel, n_opcoes){
+  
+  dados[,variavel] <- gsub("\\[", "", dados[,variavel])
+  dados[,variavel] <- gsub("\\]", "", dados[,variavel])
+  
+  # Aplicando a função dummycols que cria as dummies para os valores observados ----
+  var_dummy <- as.data.frame(
+    dummy_cols(
+      dados[ , variavel],
+      split = ";"
+    )
+  )
+  
+  # Criando uma lista com os nomes de todas as dummies que sao necessarias no ----
+  # intervalo
+  names_n_opcoes <- paste0(
+    '.data_',
+    1:n_opcoes
+  )
+  
+  data_zerada <- as.data.frame(matrix(
+    data = 0,
+    nrow = nrow(var_dummy),
+    ncol = n_opcoes 
+  ))
+  names(data_zerada) <- names_n_opcoes
+  
+  # Verifica se todos os valores possiveis foram encontrados, caso contrario ----
+  # cria-se a dummy para o valor nao encontrado
+  for (i in 1:n_opcoes){
+    ifelse(
+      names_n_opcoes[i] %in% names(var_dummy),
+      data_zerada[ ,
+                   names(data_zerada) == names_n_opcoes[i]
+      ] <- var_dummy[ ,
+                      names(var_dummy) == names_n_opcoes[i] 
+      ],
+      NA
+    )
+    
+  }
+  
+  # Trocando o nome das variáveis para adequar ao instrumento ----
+  nomes_novos <- paste0(
+    variavel,
+    "_d",
+    1:n_opcoes
+  )
+  names(data_zerada) <- nomes_novos
+  
+  # Inserindo a dummie no dataframe ----
+  dados <- cbind(
+    dados,
+    data_zerada
+  )
+  
+  # Realocando ela para ficar ao lado da variável originária ----
+  dados <- relocate(
+    .data = dados,
+    (ncol(dados) - n_opcoes +1):ncol(dados),
+    .after = variavel
+  )
+  
+  return(dados)
+}
