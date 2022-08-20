@@ -1,0 +1,36 @@
+padroniza_nomes <- function(base, nome_coluna){
+  
+  numero_coluna <- which(colnames(base) == nome_coluna)
+  
+  for(i in 1:nrow(base)){
+    
+    base[i,numero_coluna] <- toupper(base[i,numero_coluna])
+    base[i,numero_coluna] <- gsub("Ã"  ,"A", base[i,numero_coluna])
+    base[i,numero_coluna] <- gsub("Â"  ,"A", base[i,numero_coluna])
+    base[i,numero_coluna] <- gsub("Á"  ,"A", base[i,numero_coluna])
+    base[i,numero_coluna] <- gsub("À"  ,"A", base[i,numero_coluna])
+    base[i,numero_coluna] <- gsub("Í"  ,"I", base[i,numero_coluna])
+    base[i,numero_coluna] <- gsub("Ô"  ,"O", base[i,numero_coluna])
+    base[i,numero_coluna] <- gsub("Õ"  ,"O", base[i,numero_coluna])
+    base[i,numero_coluna] <- gsub("Ó"  ,"O", base[i,numero_coluna])
+    base[i,numero_coluna] <- gsub("É"  ,"E", base[i,numero_coluna])
+    base[i,numero_coluna] <- gsub("Ê"  ,"E", base[i,numero_coluna])
+    base[i,numero_coluna] <- gsub("Ú"  ,"U", base[i,numero_coluna])
+    base[i,numero_coluna] <- gsub("Ç"  ,"C", base[i,numero_coluna])
+    base[i,numero_coluna] <- gsub("\\.", "", base[i,numero_coluna])
+    base[i,numero_coluna] <- gsub("ª"  , "", base[i,numero_coluna])
+    base[i,numero_coluna] <- gsub("º"  , "", base[i,numero_coluna])
+    base[i,numero_coluna] <- gsub(" - "," ", base[i,numero_coluna])
+    base[i,numero_coluna] <- gsub("  " ," ", base[i,numero_coluna])
+    base[i,numero_coluna] <- gsub(","  , "", base[i,numero_coluna])
+    base[i,numero_coluna] <- gsub("*"  , "", base[i,numero_coluna])
+    base[i,numero_coluna] <- gsub(" $" , "", base[i,numero_coluna])
+    base[i,numero_coluna] <- gsub("^ " , "", base[i,numero_coluna])
+    base[i,numero_coluna] <- gsub("^  " , "", base[i,numero_coluna])
+    base[i,numero_coluna] <- gsub("  $" , "", base[i,numero_coluna])
+  }
+  
+  
+  
+  return(base)
+}
