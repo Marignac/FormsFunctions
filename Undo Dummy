@@ -1,0 +1,28 @@
+UndoDummy <- function(base, column, dummy_numberof){
+  
+  col_number <- which(colnames(base) == column)
+  row = 1
+  
+  while(row <= 15367){
+    
+    i = 1
+    dummies <- list() 
+    
+    while(i <= dummy_numberof){
+      
+      if(!is.na(base[row, col_number + i])){
+        dummies <- append(
+          dummies,
+          i
+        )
+        i = i + 1
+      }else{
+        i = i + 1
+      }
+    }
+    
+    base[row, col_number] <- paste(dummies, collapse = ";")
+    row = row + 1 
+  }
+  return(base)
+}
